@@ -39,4 +39,5 @@ When you ask, include: the command, the full output, what you expected, and what
 
 ## Section-specific help
 
-<!-- TA: link the Shared VM troubleshooting and escalation guide here when it is published. -->
+- **Shared VM (RHEL, teams):** only the professor and TA have sudo. Escalate missing tools, permission problems that need sudo, and anything that affects the whole VM to them. Never work around it.
+- **Local VM (Ubuntu, individual):** you own your VM, but ask before making system-wide changes the track README does not mention. They become rebuild gaps later.
