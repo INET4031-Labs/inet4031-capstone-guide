@@ -22,7 +22,11 @@ Keep your original VM until the rebuild works. You may need to compare the two.
 - **Week 13:** Teams take turns in a queue to test their rebuild on a separate VM. The VM is wiped between teams so every team starts from the same clean state. Use your slot to find gaps; fix them afterward by pull request.
 - **Week 14:** Live presentation. The tools are pre-installed on the presentation VM. Your team clones the repository live and brings the app up using your README and setup instructions.
 
-**Shared VM tension to plan for:** in this section you committed Ansible playbooks (and, on some tracks, OpenTofu code marked [PREDICT ONLY]) without running them, so teams would not interfere with each other. Anything your README tells someone to run, and that you have never run, may fail for the first time during the rebuild. Use your queue slot to find out, and make sure your README says clearly which steps are run and which are reference only.
+**Rules for the Shared VM rebuild:**
+
+- **No sudo.** The rebuild VM and the presentation VM work like the lab VM: every step in your README has to run as your normal user.
+- **Ansible and [PREDICT ONLY] code stay reference-only.** Do not run your playbooks or `tofu` during the rebuild. Bringing the app up must not depend on them, and your README should label them clearly as reference-only.
+- **Same cluster subnet.** Recreate your k3d cluster with the same `--subnet 100.97.<team>.0/24` flag (your team number) that you used during the semester, so pods can pull images and teams never overlap.
 
 ## What lives outside git
 
@@ -32,7 +36,7 @@ These are the things students most often forget, because they existed on the old
 |---|---|---|
 | Tool installs | The new VM (Local) has none of your tools | List the install steps or point to your track README's Tools Available section |
 | Python virtualenv | Lives in your home directory, not the repo | `requirements.txt` committed; README shows how to create the venv from it |
-| k3d cluster | Created by a command you ran weeks ago | Exact `k3d cluster create` command (with every flag) in a script or the RUNBOOK |
+| k3d cluster | Created by a command you ran weeks ago | Exact `k3d cluster create` command with every flag, including `--subnet 100.97.<team>.0/24` on the Shared VM, in a script or the RUNBOOK |
 | Prometheus and other helm releases | Installed by hand | The helm commands and any values file in the repo |
 | Docker images | Built and imported locally | Build and `k3d image import` commands in the RUNBOOK |
 | Database rows | Seeded data lives in a Docker volume | Seed command, and whether it is safe to run twice |
