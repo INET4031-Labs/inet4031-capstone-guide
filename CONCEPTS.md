@@ -14,9 +14,9 @@ Short explanations of the ideas behind each track. Each one ends with where to r
 
 **Infrastructure as code.** The system is described in files in git (manifests, scripts, playbooks) instead of in someone's memory. The rebuild in Week 13 tests how much of your system is really in code.
 
-**Default-deny NetworkPolicy.** Your `default` namespace blocks all incoming traffic to pods unless an allow policy selects the pod and port. New kinds of pods are unreachable until you write their allow.
+**Default-deny NetworkPolicy.** Your `default` namespace blocks all incoming traffic to pods unless an allow policy selects the pod and port. New kinds of pods are unreachable until you write their allow. (Shared VM. The Local VM has no default-deny: only the `db` pods are protected, by the `db-clients` policy, and any pod you add accepts traffic from anywhere until a policy selects it.)
 
-**Requests and limits.** A memory or CPU *request* is what the scheduler reserves for a pod. A *limit* is the most it may use; a pod over its memory limit is killed. Every pod in this course needs memory requests and limits because several teams share one VM.
+**Requests and limits.** A memory or CPU *request* is what the scheduler reserves for a pod. A *limit* is the most it may use; a pod over its memory limit is killed. Every pod in this course needs memory requests and limits: on the Shared VM because several teams share one VM, and on the Local VM because your VM is small and your Deploy gate's security scan requires them.
 
 ## Networking and Cloud Infrastructure
 

@@ -15,7 +15,8 @@ Add a timestamp line at the top of long captures: `date | tee capstone/<track>/e
 - [ ] Environment Checkpoint output
 - [ ] `TOOL-VERSIONS.txt` (and `requirements.txt` for Python packages)
 - [ ] `RUNBOOK.md`
-- [ ] `ARCHITECTURE.md` with a diagram
+- [ ] `ARCHITECTURE.md` with a diagram and a "What we changed and why" section ([MAKE-IT-YOURS.md](MAKE-IT-YOURS.md))
+- [ ] `DESIGN-BRIEF.md`, only if you replaced a success criterion, with the approval noted
 - [ ] "How to run this" section in the top-level README
 - [ ] `docs/qa-report-final.md`
 - [ ] Retrospective (Shared VM) or Individual Reflection (Local VM)
@@ -31,6 +32,14 @@ Add a timestamp line at the top of long captures: `date | tee capstone/<track>/e
 | 3. PDB per scaled tier and what happens on node loss | `evidence/pdb.txt`, `evidence/drill-pods.txt` | `kubectl get pdb`; `kubectl get pods -o wide` during the drill |
 | 4. Request trace and tightened policy | `ARCHITECTURE.md`, `evidence/netpol-before-after.txt` | Your analysis; allowed and denied test output before and after |
 | 5. Memory budget | `evidence/memory-budget.txt` | Your arithmetic, plus `kubectl describe` showing limits |
+
+**Local VM variants** (see the Local VM criteria in the track README):
+
+| Criterion | Evidence file | Produced by |
+|---|---|---|
+| 2. Under 1% failures through a pod failure and a rollout | `evidence/drill-k6.txt`, `evidence/drill-times.txt`, `evidence/drill-pods.txt` | k6 summary; `date` at each pod deletion and at the start and end of the rollout; `kubectl get pods -o wide` during the drill |
+| 3. PDB for `web` and what it does on one node | `evidence/pdb.txt` | `kubectl get pdb` and `kubectl describe pdb` at the starting replica count and when scaled, plus your written explanation |
+| 4. Request trace and a new or tightened policy | `ARCHITECTURE.md`, `evidence/netpol-before-after.txt` | Your trace of k6 to `web` to `db`; allowed and denied tests from debug pods before and after |
 
 ## Machine Learning and AI
 
@@ -59,7 +68,7 @@ Add a timestamp line at the top of long captures: `date | tee capstone/<track>/e
 | 1. Control matrix, 15+ rows, all with evidence | `controls.csv` | Your controls, each pointing to a file in `evidence/` |
 | 2. Image and manifest scans, before and after | `evidence/trivy-image-before.json`, `evidence/trivy-image-after.json`, manifest scans | Trivy, kube-score, checkov |
 | 3. Full-history secrets scan, 0 unresolved | `evidence/gitleaks-report.json` | gitleaks on the repo root, with redaction |
-| 4. 8+ RBAC checks and 2+ blocked NetworkPolicy tests | `evidence/rbac-checks.txt`, `evidence/netpol-tests.txt` | `kubectl auth can-i --as=...`; blocked requests from a test pod, with predictions written first |
+| 4. 8+ RBAC checks and 2+ blocked NetworkPolicy tests | `evidence/rbac-checks.txt`, `evidence/netpol-tests.txt` | `kubectl auth can-i --as=...`; blocked requests from a test pod, with predictions written first. Local VM: identities and the policy under test are listed in the track README. |
 | 5. Risk register, 3 policies, evidence script | `risk-register.md`, `policies/`, the script and one timestamped output folder | Your documents; `time ./collect-evidence.sh` |
 
 ## DevSecOps and IT Project Management
@@ -67,7 +76,7 @@ Add a timestamp line at the top of long captures: `date | tee capstone/<track>/e
 | Criterion | Evidence file | Produced by |
 |---|---|---|
 | 1. Four new gates on five real PRs | `evidence/gate-runs.txt` | `gh pr checks <number>` per PR |
-| 2. Three bad PRs red, one good PR merged, protection intact | `evidence/gate-runs.txt`, `evidence/branch-protection.txt` | `gh pr checks`; `gh api .../branches/main/protection` before and after |
+| 2. Three bad PRs red, one good PR merged, protection intact | `evidence/gate-runs.txt`, `evidence/branch-protection.txt` | `gh pr checks`; Shared VM: `gh api .../branches/main/protection` before and after; Local VM: `gh api repos/{owner}/{repo}/rulesets/<id>` before and after |
 | 3. Pre-commit rejects a bad commit, passes clean | `evidence/pre-commit-reject.txt`, `evidence/pre-commit-clean.txt` | `git commit` output; `pre-commit run --all-files` |
 | 4. Two tags, changelog, timed rollback | `CHANGELOG.md`, `evidence/rollback-rehearsal.txt` | `git tag -n`; `git-cliff`; `time` on your rollback command |
 | 5. Roadmap, RACI, risk register, status report | `ROADMAP.md`, `RACI.md`, `RISK-REGISTER.md`, `STATUS-REPORT.md` | Your documents |

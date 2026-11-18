@@ -2,15 +2,16 @@
 
 One line per tool: the question it answers, a safe first command, and the thing that usually trips people up. Install and verify steps are in your track README. Flags change between versions, so when a command here fails, run the tool's `--help` on the version you installed.
 
-Replace `<N>` with your team number, `<cluster>` with your cluster name, and paths with your own.
+Replace `<N>` with your team number, `<cluster>` with your cluster name, and paths with your own. Local VM students have no team number and a single-node k3s cluster: the Local VM notes below and [LOCAL-VM.md](LOCAL-VM.md) give the equivalent commands.
 
 ## Cluster and containers (all tracks)
 
 | Tool | Question it answers | First command to try | Common trip-up |
 |---|---|---|---|
 | kubectl | What is running in my cluster, and why? | `kubectl get pods -o wide` then `kubectl describe pod <name>` | Wrong context. Check `kubectl config current-context`. |
-| k3d | Which clusters exist, and how do I get my image into one? | `k3d cluster list` | Forgetting `-c <cluster>` on `k3d image import`, so the image goes nowhere useful. |
-| docker | Which containers and images exist on this host? | `docker ps --filter name=k3d-<cluster>-` | The daemon is shared on the Shared VM. Only touch containers and tags with your name or team number. |
+| k3d (Shared VM) | Which clusters exist, and how do I get my image into one? | `k3d cluster list` | Forgetting `-c <cluster>` on `k3d image import`, so the image goes nowhere useful. |
+| k3s (Local VM) | Is my node up, and which images can it run? | `kubectl get nodes -o wide` then `sudo k3s crictl images` | An image built with Docker is invisible to k3s until you `docker save` it and `sudo k3s ctr images import` it. |
+| docker | Which containers and images exist on this host? | Shared VM: `docker ps --filter name=k3d-<cluster>-`. Local VM: `docker images` | The daemon is shared on the Shared VM. Only touch containers and tags with your name or team number. On the Local VM, Docker builds images but k3s runs them. |
 | helm | What did the Prometheus chart install, with which values? | `helm list -A` | Reinstalling over a working release by accident. Read before you change. |
 | curl | Does this endpoint answer, and how fast? | `curl -s -o /dev/null -w "%{http_code} %{time_total}\n" http://localhost:<port>/health` | Hitting another team's port. Check the number. |
 | jq | How do I pull one field out of JSON? | `kubectl get pods -o json \| jq '.items[].metadata.name'` | Forgetting `-r` when you want raw strings without quotes. |
@@ -23,7 +24,7 @@ Replace `<N>` with your team number, `<cluster>` with your cluster name, and pat
 | kubectl top | How much CPU and memory are pods using now? | `kubectl top pods` | It needs metrics-server. If it errors, tell the TA. |
 | HPA via kubectl | Is my autoscaler seeing a metric and acting on it? | `kubectl get hpa` and `kubectl describe hpa <name>` | `<unknown>` targets mean no CPU request on the pods. |
 | dig | What does this name resolve to? | `dig +short <name>` from the VM | Cluster names like `flask.default.svc.cluster.local` only resolve *inside* the cluster. Use a debug pod. |
-| OpenTofu | What would this infrastructure definition create? | Local VM: `tofu init` then `tofu plan` | Shared VM: write the code only. Never run `tofu`. |
+| OpenTofu | What would this infrastructure definition create? | Local VM: `cd week-5 && tofu plan` | Shared VM: write the code only. Never run `tofu`. Local VM: plan on your branch, but let `deploy.sh` apply after the merge. |
 
 ## Machine Learning and AI
 
@@ -38,7 +39,7 @@ Replace `<N>` with your team number, `<cluster>` with your cluster name, and pat
 
 | Tool | Question it answers | First command to try | Common trip-up |
 |---|---|---|---|
-| psql | What is in the database? | `docker compose -f week-2/docker-compose.yml exec -T db psql -U appuser -d statustracker --csv -c "SELECT COUNT(*) FROM incidents;"` | Using `\copy` inside the container writes the file inside the container. Redirect `--csv` output on the host instead. |
+| psql | What is in the database? | Shared VM: `docker compose -f week-2/docker-compose.yml exec -T db psql -U appuser -d statustracker --csv -c "SELECT COUNT(*) FROM incidents;"`. Local VM: `./week-10/sql.sh 'SELECT COUNT(*) FROM tickets'` | Using `\copy` inside the container writes the file inside the container. Redirect `--csv` output on the host instead. |
 | pandas | How do I group, resample, and summarize this table? | `df = pd.read_csv("file.csv", parse_dates=["created_at"])` | Forgetting `parse_dates`, so time grouping fails. |
 | matplotlib | How do I save a labeled chart? | `matplotlib.use("Agg")` before `import matplotlib.pyplot` | No title, axis labels, or units. All three are required. |
 | scipy.stats | Is this pattern real or noise? | `scipy.stats.linregress(x, y)` for a trend | Reporting a p-value without saying in plain English what it means. |
@@ -60,7 +61,7 @@ Replace `<N>` with your team number, `<cluster>` with your cluster name, and pat
 
 | Tool | Question it answers | First command to try | Common trip-up |
 |---|---|---|---|
-| gh | What happened on this PR, and what are the branch rules? | `gh pr checks <number>` | Reading branch protection needs admin rights. Ask an admin teammate or the TA. |
+| gh | What happened on this PR, and what are the branch rules? | `gh pr checks <number>` | Shared VM: reading branch protection needs admin rights; ask an admin teammate or the TA. Local VM: your rules are a ruleset, so read them with `gh api repos/{owner}/{repo}/rulesets`. |
 | pre-commit | Does this commit pass the cheap checks on my machine? | `pre-commit run --all-files` | Every fresh clone needs `pre-commit install`. |
 | ShellCheck | Does this shell script have bugs? | `shellcheck script.sh` | Ignoring warnings about unquoted variables. They are usually real. |
 | Hadolint | Does this Dockerfile follow good practice? | `hadolint Dockerfile` | Suppressing rules without writing down why. |

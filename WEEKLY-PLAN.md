@@ -1,6 +1,6 @@
 # Weekly Plan: Weeks 11 to 14
 
-Both sections follow the same four weeks. Shared VM teams split the work across roles; Local VM students do all of it alone, so keep scope tight.
+Both sections follow the same four weeks and the same end-of-week targets. Shared VM teams split the work across roles; Local VM students do all of it alone, so keep scope tight. Local VM students: commands and names in this plan follow the Shared VM setup; translate them with [LOCAL-VM.md](LOCAL-VM.md).
 
 ## Week 11: Kickoff
 
@@ -13,6 +13,7 @@ Both sections follow the same four weeks. Shared VM teams split the work across 
 5. QA test cases drafted in `docs/qa-report-final.md` before the implementation exists.
 6. A baseline or first decision: the "before" picture your later evidence compares against (see your track below).
 7. A `NOTES.md` or RUNBOOK draft that records every command that worked.
+8. Your app changes decided. If you want to replace a success criterion, your `DESIGN-BRIEF.md` is agreed with the TA or professor by the end of the week (see [MAKE-IT-YOURS.md](MAKE-IT-YOURS.md)).
 
 **By the end of Week 11:** your environment is healthy, the before picture is committed, and one thin slice of the work runs end to end, even if it is rough.
 
@@ -31,7 +32,7 @@ Both sections follow the same four weeks. Shared VM teams split the work across 
 
 **Priorities**
 
-1. Finish the documents: RUNBOOK, ARCHITECTURE (with diagram), the "How to run this" section in your top-level README, the QA report, and the retrospective or individual reflection.
+1. Finish the documents: RUNBOOK, ARCHITECTURE (with diagram and a "What we changed and why" section), the "How to run this" section in your top-level README, the QA report, and the retrospective or individual reflection.
 2. Self-check: clone your repo into a fresh folder and read only the README. Does it tell you every step?
 3. Run the rebuild. See [REBUILD.md](REBUILD.md).
    - **Local VM:** create a new VM in VirtualBox with the same steps you used for your original VM, clone your repository, and follow your own README.
@@ -53,8 +54,8 @@ Rehearse at least once from a clean clone.
 
 | Week | Target |
 |---|---|
-| 11 | Baseline recorded (request rate, p95, replica count, memory). Request path sketched. `docker ps --filter name=k3d-<cluster>-` output saved. |
-| 12 | Requests and limits, probes, replicas spread across nodes, PodDisruptionBudgets, capped HPA. First scale-up captured. One practice drill. Memory arithmetic ready for the check-in. |
+| 11 | Baseline recorded (request rate, p95, replica count, memory). Request path sketched. Shared VM: `docker ps --filter name=k3d-<cluster>-` output saved. Local VM: `kubectl get nodes -o wide` and `kubectl get pods -o wide` saved. |
+| 12 | Requests and limits, probes, PodDisruptionBudgets, capped HPA. Shared VM: replicas spread across nodes. Local VM: HPA and PDB added through `week-5/` and the Deploy gate. First scale-up captured. One practice drill (node drill on the Shared VM, pod-failure and rollout drill on the Local VM). Memory arithmetic ready for the check-in. |
 | 13 | Final 3-minute drill evidence, NetworkPolicy before and after test, request trace in ARCHITECTURE, RUNBOOK, rebuild and gap log. |
 
 ### Machine Learning and AI
