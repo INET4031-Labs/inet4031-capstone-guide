@@ -9,7 +9,10 @@ Read this on the first day of your track. It takes about ten minutes.
 3. **Your track README: Rules of the Road.** These rules exist because the environment is shared or because something broke in an earlier semester. Most "mystery" failures trace back to one of them.
 4. **Your track README: Tools Available.** You do not need to master every tool. Look each one up in [TOOL-GUIDE.md](TOOL-GUIDE.md) and read the one-line "question it answers."
 5. **Your track README: Example Approaches.** Pick one to start from, or combine them. You can change direction later.
-6. **[WEEKLY-PLAN.md](WEEKLY-PLAN.md).** Find the Week 11 row for your track.
+6. **[MAKE-IT-YOURS.md](MAKE-IT-YOURS.md).** The app is yours to change. Read what you may change, what must keep working, and how to propose your own criterion by the end of Week 11.
+7. **[WEEKLY-PLAN.md](WEEKLY-PLAN.md).** Find the Week 11 row for your track.
+
+**Local VM students:** read [LOCAL-VM.md](LOCAL-VM.md) before step 1. Your cluster, app names, branch, and week numbers differ from the Shared VM text.
 
 ## Your first working session
 
@@ -23,7 +26,7 @@ Read this on the first day of your track. It takes about ten minutes.
 
 - **If you typed it, write it down.** Any command you ran by hand that changed the system belongs in your RUNBOOK or a script in git.
 - **Save output to files, not memory.** `command | tee capstone/<track>/evidence/<name>.txt` keeps the output on screen and in a file.
-- **Commit small and often** through pull requests on the Shared VM.
+- **Commit small and often** through pull requests (on `main` for the Shared VM, on `master` for the Local VM).
 - **Ask "could a classmate run this from my README?"** at the end of every session.
 
 ## What "comfortable with being uncomfortable" means here

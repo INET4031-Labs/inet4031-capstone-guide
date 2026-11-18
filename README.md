@@ -15,6 +15,8 @@ This repository holds the material every capstone track shares. Each track repos
 | File | Read it when |
 |---|---|
 | [START-HERE.md](START-HERE.md) | Day one. A reading order and what to do in your first session. |
+| [MAKE-IT-YOURS.md](MAKE-IT-YOURS.md) | Week 11. What you may change in the app, what must keep working, and how to propose your own success criterion. |
+| [LOCAL-VM.md](LOCAL-VM.md) | Local VM section, before you start. How your k3s and OpenTofu setup differs from the Shared VM text in the track READMEs. |
 | [WEEKLY-PLAN.md](WEEKLY-PLAN.md) | Every week. What to prioritize in Weeks 11 to 14 and what your project should look like at the end of each week. |
 | [CONCEPTS.md](CONCEPTS.md) | You hit a term you do not know, or you want the mental model behind your track. |
 | [TOOL-GUIDE.md](TOOL-GUIDE.md) | You are about to use a tool for the first time. |
@@ -30,3 +32,5 @@ A capstone is supposed to feel uncomfortable at first. Nobody hands you the step
 ## Where the rules live
 
 If this guide and a track README ever disagree, the track README wins. Tell the TA so the guide can be fixed.
+
+For Local VM students, your own repository is the final word on names, paths, and tags you set up in Weeks 3 to 10. [LOCAL-VM.md](LOCAL-VM.md) describes the standard setup from those labs.
