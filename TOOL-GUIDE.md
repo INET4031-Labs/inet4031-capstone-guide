@@ -51,7 +51,7 @@ Replace `<N>` with your team number, `<cluster>` with your cluster name, and pat
 | Tool | Question it answers | First command to try | Common trip-up |
 |---|---|---|---|
 | Trivy | Which known vulnerabilities and misconfigurations are in my image and files? | `trivy image --severity HIGH,CRITICAL <image>:<tag>` | Running it inside a container on campus, where it cannot download its database. Run on the host. |
-| gitleaks | Has a secret ever been committed, anywhere in history? | `gitleaks --help` first; subcommands differ between versions | Pasting a real secret into the report. Use the redact option. |
+| gitleaks | Has a secret ever been committed, anywhere in history? | `gitleaks git --redact -v .` from the repo root (check `gitleaks --help` if your version differs) | Following old tutorials that use `detect`, `protect`, or `--path`. Pasting a real secret into the report; always use `--redact`. |
 | kube-score | Do my manifests follow good practice? | `kube-score score <manifest>.yaml` | Treating every suggestion as a failure. Triage. |
 | checkov | Do my Dockerfiles, YAML, workflows, and OpenTofu pass policy checks? | `checkov -d <dir>` | Large output. Use `--compact` and save to a file. |
 | kubectl auth can-i | Can this identity do this action? | `kubectl auth can-i get secrets --as=system:serviceaccount:default:flask-app` | Forgetting `--as`, which checks *your* permissions instead. |
